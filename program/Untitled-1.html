@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能体前端</title>
+</head>
+<body>
+    <h1>输入需求</h1>
+    <textarea id="userInput" rows="4" cols="50" placeholder="输入你的需求..."></textarea><br>
+    <button id="submitButton">提交</button>
+    <h2>生成的图片</h2>
+    <img id="resultImage" src="" alt="生成的图片" style="display:none;"/>
+
+    <script>
+        document.getElementById('submitButton').onclick = async function() {
+            const userInput = document.getElementById('userInput').value;
+            const response = await fetch('/api/generate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ input: userInput })
+            });
+
+            const data = await response.json();
+            document.getElementById('resultImage').src = data.image_url;
+            document.getElementById('resultImage').style.display = 'block';
+        };
+    </script>
+</body>
+</html>
